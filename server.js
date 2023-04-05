@@ -3,10 +3,12 @@ import { getDatabase, set, ref, get, update, remove } from "firebase/database";
 import express from 'express'
 import bodyParser from "body-parser";
 
+let PORT = process.env.PORT || 5000;
+
 var app2 = express()
 app2.use(bodyParser.json());
 app2.use(bodyParser.urlencoded({ extended: true }))
-var server = app2.listen(3001, console.log('server is running on port 3001'))
+var server = app2.listen(PORT, console.log('server is running on port 5000'))
 
 const firebaseConfig = {
     databaseURL: "https://water-bottle-50d9f-default-rtdb.asia-southeast1.firebasedatabase.app/"
