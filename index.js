@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 3001;
 var app2 = express()
 app2.use(bodyParser.json());
 app2.use(bodyParser.urlencoded({ extended: true }))
-app2.listen(PORT, ()=>{
+app2.listen(PORT, () => {
     console.log(`Server is running. ${PORT}`)
 })
 
@@ -53,6 +53,7 @@ app2.post('/api/create', (req, res) => {
 
 //get
 app2.get('/api/get', (req, res) => {
+
     try {
         get(ref(db, 'users'))
             .then((snapshot) => {
