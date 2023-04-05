@@ -53,6 +53,7 @@ app2.post('/api/create', (req, res) => {
 
 //get
 app2.get('/api/get', (req, res) => {
+    res.send('Hello World');
     try {
         get(ref(db, 'users'))
             .then((snapshot) => {
