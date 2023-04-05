@@ -3,18 +3,21 @@ import { getDatabase, set, ref, get, update, remove } from "firebase/database";
 import express from 'express'
 import bodyParser from "body-parser";
 
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    next();
-})  
+// app.use((req, res, next) => {
+//     res.header('Access-Control-Allow-Origin', '*');
+//     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+//     next();
+// })  
 
-let PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3001;
 
 var app2 = express()
 app2.use(bodyParser.json());
 app2.use(bodyParser.urlencoded({ extended: true }))
-var server = app2.listen(PORT, console.log('server is running on port 3001'))
+//var server = app2.listen(PORT, console.log('server is running on port 3001'))
+app2.listen(PORT, ()=>{
+    console.log(`Server is running. ${PORT}`)
+})
 
 const firebaseConfig = {
     databaseURL: "https://water-bottle-50d9f-default-rtdb.asia-southeast1.firebasedatabase.app/"
