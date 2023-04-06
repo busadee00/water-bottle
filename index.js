@@ -33,7 +33,6 @@ app2.post('/api/create', (req, res) => {
             lastname: lastname,
             gender: gender,
             birthday: birthday,
-            // mil: new Date().getTime(),
             date: new Date() + ''
         })
         return res.status(200).json({
