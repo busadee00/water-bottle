@@ -5,10 +5,10 @@ import bodyParser from "body-parser";
 
 const PORT = process.env.PORT || 3001;
 
-var app2 = express()
-app2.use(bodyParser.json());
-app2.use(bodyParser.urlencoded({ extended: true }))
-app2.listen(PORT, () => {
+var app = express()
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }))
+app.listen(PORT, () => {
     console.log(`Server is running. ${PORT}`)
 })
 
@@ -19,7 +19,7 @@ const app = initializeApp(firebaseConfig)
 const db = getDatabase(app)
 
 //create
-app2.post('/api/create', (req, res) => {
+app.post('/api/create', (req, res) => {
     var firstname = req.body.firstname;
     var lastname = req.body.lastname;
     var gender = req.body.gender;
@@ -51,7 +51,7 @@ app2.post('/api/create', (req, res) => {
 
 
 //get
-app2.get('/api/get', (req, res) => {
+app.get('/api/get', (req, res) => {
 
     try {
         get(ref(db, 'users'))
@@ -90,7 +90,7 @@ app2.get('/api/get', (req, res) => {
 })
 
 //get by user
-app2.post('/api/getbyuser', (req, res) => {
+app.post('/api/getbyuser', (req, res) => {
     var firstname = req.body.firstname
 
     try {
@@ -130,7 +130,7 @@ app2.post('/api/getbyuser', (req, res) => {
 })
 
 //update
-app2.put('/api/update', (req, res) => {
+app.put('/api/update', (req, res) => {
     var firstname = req.body.firstname
     var lastname = req.body.lastname
     var birthday = req.body.birthday
@@ -168,7 +168,7 @@ app2.put('/api/update', (req, res) => {
 })
 
 //delete
-app2.delete('/api/delete', (req, res) => {
+app.delete('/api/delete', (req, res) => {
     var firstname = req.body.firstname
 
     try {
