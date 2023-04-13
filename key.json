@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "water-bottle-bbca6",
+  "private_key_id": "4c39b5ffa400d0d659e2000faee2c9cd60aec4c2",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCwcyUmGSZQCah/\ntYsmoqIKc8YK4SF+K/nK1d0PVgNclTUfnKyp6eZN35SlIAHI+c5B7E4uUR77kg6+\nMQeh/gvWYn5Csz4RAc0jzi5B4KJYSk1oMK3Fk8DdTFfAUsiHOEAdxyO44oe/SUoe\nV7I2Dnh1pOtx4DcK2bINM+OVzkIFzS2ZtrZLWY0LV1vYpC1Iu6AdGkiiSy++7fEy\nQ/uU6z7L+/vwuucW5ILc+5XbMSuvGvIoBr1P78PmxdqKSOl3HBQgPBNRbM0Nuyiz\nLCNU8Bbi5k7Ho+RF0e1EDdXyRerUceeNHwu0iGZkLNwLWc34mOvg1Su+Mnh07Nc5\naunzCOWVAgMBAAECggEAHqDeIe7bp6kFhqWMsfgpCIdwKRNLLQuVIJBe/vp/OuLr\nhcE8d4ISaBIXS1Jy/N/f3bGXIJMUPbbsuDbqjEP86gnOwOU8MNePNFflz6mehJTh\nOuS4RUOQhtlpogi8pjwtZP3cRYuM5LdkFkBCvv9kCYfHFs1EwK1pKsGHD8nty/O3\nBJamzZiPUQjIwXldJpOMwoBSLSLBAU1aUhZlcGdXFZRoyAwArw8l0KY310sAK7c9\npqomuvLfj7Qxqe41seizTmgPSMMCFL36sx5if+HBPz1zhVAXW/jUG/ixBkVO4hmH\ncBO+mhNvUWwguM2g4mpkFNxvxBt5KXiyTo2gPQfdQQKBgQD3SUSNFT9JGKPw9nqL\n+wDvNUeaumOqcOi2kG7GmkwzHG7+suuQyMkxRa2bhj/njnjcsl3ukyHqszhEWVM1\n4pgficHpDXopxjsZFplL+sWBo6jCJiQg1siUiCwicyx4fCQg7imHkm9t50P8uKpU\nIwS1hlYwUhLLnTQrAfMB/utUJwKBgQC2qt9cmpKX/D11dEw5+AUlyaTYz09CPjcD\n6oxOY9SGiMQdXb9MVavznvR+KxyqO3h3cSnELl2iajJ2MD4UyuuIxWOIlOisGzZD\nEzAPMy89Ase/slcm5dnRPqdwjKOXn8QFDfb8cOdueiG2hpIX5eNHSwB/jP74tAiz\nQTEAjsHh4wKBgE6T2JWgL8jxbH7QQ6ahbu2UF5nCKpNpZ3lDsf+n3hjLqzWB8zrB\norTmeEEYSswwyJUQlKqP1FI4+uM1IyzXQRGce6KrpqsJk5PoS3QKTqJgN+rhpc9N\nkNUp5CRaRsJOaEiShV3QGVpqB3+RyoYLzp5D/rVCDzjmTkJwTyDOOUc3AoGBAJsE\nnbOX1eo3fOytencDfVLZMhVwsWGVLNkc9l8cJ2LYtB37zfl5Bwkjj3d3HMd22r/6\ngChl9L59gz97p2O75XDXmqVxQZe1LDJ2GSX9GQyczGlpbr6q91O06SIBqF9njVGA\nzWbkZfMCoJOm1lqDlIKPKugT/tmO54dAPtarT+xjAoGANIn1KUl+icOeR8wPfXl1\nnDsdjBRZ26n7FweqLIT6RpvHDXtncVAnp7jU2JmHTy84Lp0sGpJAdj8i0xvP3tHV\nHRg8Ib2P67ZXeSOPWNfd8AWqf6g9sNndJRnNNSXuuAy646o3+YpheUax/foMK+eU\nxfLMoGISN5kkR4OBqu1jjLc=\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-75g3v@water-bottle-bbca6.iam.gserviceaccount.com",
+  "client_id": "112235051137023297408",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-75g3v%40water-bottle-bbca6.iam.gserviceaccount.com"
+}
