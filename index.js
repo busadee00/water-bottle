@@ -73,16 +73,20 @@ app2.post('/users', (req, res) => {
 
 //create water
 app2.post('/drink', (req, res) => {
-  var id = req.body.id;
+  var firstName = req.body.firstName;
+  //var firstHour = req.body.firstHour;
+  var time = req.body.time;
+  var temp = req.body.temp;
 
   try {
-      console.log('>>>> id', id)
-      console.log('path', 'users/' + id)
-      set(ref(db, 'amountToDrink/' + id), {
-          id: id,
-          date: new Date() + '',
+      console.log('>>>> firstName', firstName)
+      console.log('path', 'users/' + firstName)
+      set(ref(db, 'users/' + firstName + '/daily/firstHour'), {
+        time: time,
+        temp: temp
       
       })
+      
       return res.status(200).json({
           RespCode: 200,
           RespMessage: 'good'
