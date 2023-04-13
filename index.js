@@ -21,7 +21,7 @@ const db = getDatabase(app)
 
 //create user
 app2.post('/users', (req, res) => {
-  var id = req.body.id;
+  //var id = req.body.id;
   var firstName = req.body.firstName;
   var lastName = req.body.lastName;
   var gender = req.body.gender;
@@ -37,10 +37,10 @@ app2.post('/users', (req, res) => {
 
 
   try {
-      console.log('>>>> id', id)
+      console.log('>>>> firstName', firstName)
       console.log('path', 'users/' + firstName)
-      set(ref(db, 'users/' + id), {
-          id: id,
+      set(ref(db, 'users/' + firstName), {
+          //id: id,
           firstName: firstName,
           lastName: lastName,
           gender: gender,
@@ -109,7 +109,7 @@ app2.get('/api/get', (req, res) => {
           return res.status(200).json({
             RespCode: 200,
             RespMessage: 'good',
-            Result: snapshot.exportVal()
+            Result: snapshot.val()
           })
         }
         else {
