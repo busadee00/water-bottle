@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getDatabase, set, ref, get, update, remove } from "firebase/database";
+import { getDatabase, set, ref, get, update, remove, query, orderByChild, equalTo } from "firebase/database";
 import express from 'express'
 import bodyParser from "body-parser";
 
@@ -74,17 +74,28 @@ app2.post('/users', (req, res) => {
 //create water
 app2.post('/drink', (req, res) => {
   var firstName = req.body.firstName;
-  //var firstHour = req.body.firstHour;
-  var time = req.body.time;
-  var temp = req.body.temp;
+  var one = req.body.one;
+  var two = req.body.two;
+  var three = req.body.three;
+  var four = req.body.four;
+  var five = req.body.five;
+  var six = req.body.six;
+  var seven = req.body.seven;
+  var eight = req.body.eight;
 
   try {
       console.log('>>>> firstName', firstName)
       console.log('path', 'users/' + firstName)
-      set(ref(db, 'users/' + firstName + '/daily/firstHour'), {
-        time: time,
-        temp: temp
-      
+      set(ref(db, 'users/' + firstName + '/daily/fourthHour'), {
+        date: new Date()+ '',
+        one: one,
+        two: two,
+        three: three,
+        four: four,
+        // five: five,
+        // six :six,
+        // seven: seven,
+        // eight: eight
       })
       
       return res.status(200).json({
@@ -103,7 +114,7 @@ app2.post('/drink', (req, res) => {
 
 
 //get
-app2.get('/api/get', (req, res) => {
+app2.get('/get', (req, res) => {
 
   try {
     get(ref(db, 'users'))
@@ -142,13 +153,15 @@ app2.get('/api/get', (req, res) => {
 })
 
 //get by user
-app2.post('/api/getbyuser', (req, res) => {
-  var firstname = req.body.firstname
+app2.get('/get/:firstName', (req, res) => {
+  const firstName = req.params.firstName
 
   try {
-    get(ref(db, 'users/' + firstname))
+    const usersRef = ref(db, 'users')
+    const queryRef = query(usersRef, orderByChild('firstName'), equalTo(firstName))
+
+    get(queryRef)
       .then((snapshot) => {
-        console.log(snapshot.val())
         if (snapshot.exists()) {
           return res.status(200).json({
             RespCode: 200,
