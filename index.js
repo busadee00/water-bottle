@@ -72,30 +72,14 @@ app2.post('/users', (req, res) => {
 
 
 //create water
-app2.post('/drink', (req, res) => {
+app2.post('/amount', (req, res) => {
   var firstName = req.body.firstName;
-  var one = req.body.one;
-  var two = req.body.two;
-  var three = req.body.three;
-  var four = req.body.four;
-  var five = req.body.five;
-  var six = req.body.six;
-  var seven = req.body.seven;
-  var eight = req.body.eight;
 
   try {
       console.log('>>>> firstName', firstName)
       console.log('path', 'users/' + firstName)
-      set(ref(db, 'users/' + firstName + '/daily/fourthHour'), {
-        date: new Date()+ '',
-        one: one,
-        two: two,
-        three: three,
-        four: four,
-        // five: five,
-        // six :six,
-        // seven: seven,
-        // eight: eight
+      set(ref(db, 'users/' + firstName + '/amountToDrink'), {
+        
       })
       
       return res.status(200).json({
@@ -111,6 +95,65 @@ app2.post('/drink', (req, res) => {
       })
   }
 })
+
+// post amountToDrink by user
+app2.post('/amountToDrink', (req, res) => {
+  const firstName = req.body.firstName;
+
+  try {
+    set(ref(db, `users/${firstName}/amountToDrink`), {
+      "1st": {
+        time: "10:00-11:00 AM",
+        drink: "400"
+      },
+      "2nd": {
+        time: "12:00-13:00 PM",
+        drink: "400"
+      },
+      "3rd": {
+        time: "14:00-15:00 PM",
+        drink: "400"
+      },
+      "4th": {
+        time: "16:00-17:00 PM",
+        drink: "200"
+      },
+      "5th": {
+        time: "18:00-19:00 PM",
+        drink: "200"
+      },
+      "6th": {
+        time: "20:00-21:00 PM",
+        drink: "200"
+      },
+      "7th": {
+        time: "22:00-23:00",
+        drink: "100"
+      },
+      "8th": {
+        time: "00:00-01:00",
+        drink: "100"
+      },
+      // "9th": {
+      //   time: "",
+      //   drink: ""
+      // }
+    });
+
+    return res.status(200).json({
+      RespCode: 200,
+      RespMessage: 'good'
+    });
+  }
+  catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      RespCode: 500,
+      RespMessage: err.message
+    });
+  }
+});
+
 
 
 //get
