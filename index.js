@@ -2,6 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getDatabase, set, ref, get, update, remove, query, orderByChild, equalTo } from "firebase/database";
 import express from 'express'
 import bodyParser from "body-parser";
+import moment from 'moment-timezone';
 
 var app2 = express()
 app2.use(bodyParser.json());
@@ -229,6 +230,34 @@ app2.post('/amo', async (req, res) => {
 app2.post('/daily', (req, res) => {
   var firstName = req.body.firstName;
   var time = new Date();
+  var drunk = req.body.drunk;
+  var temp = req.body.temp;
+
+  try {
+      console.log('>>>> firstName', firstName)
+      console.log('path', 'users/' + firstName)
+      set(ref(db, 'users/' + firstName + '/daily/' + time), {
+        drunk: drunk,
+        temp: temp
+      })
+
+      return res.status(200).json({
+          RespCode: 200,
+          RespMessage: 'good'
+      })
+  }
+  catch (err) {
+      console.log(err)
+      return res.status(500).json({
+          RespCode: 500,
+          RespMessage: err.message
+      })
+  }
+})
+
+app2.post('/dail', (req, res) => {
+  var firstName = req.body.firstName;
+  var time = moment().tz('Asia/Bangkok').format();
   var drunk = req.body.drunk;
   var temp = req.body.temp;
 
