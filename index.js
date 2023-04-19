@@ -20,9 +20,89 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig)
 const db = getDatabase(app)
 
-//create user
+//  ------------------------- get all -----------------------------//
+app2.get('/get', (req, res) => {
+
+  try {
+    get(ref(db, 'users'))
+      .then((snapshot) => {
+        console.log(snapshot.val())
+        if (snapshot.exists()) {
+          return res.status(200).json({
+            RespCode: 200,
+            RespMessage: 'good',
+            Result: snapshot.val()
+          })
+        }
+        else {
+          return res.status(200).json({
+            RespCode: 200,
+            RespMessage: 'good',
+            Result: 'not found data'
+          })
+        }
+      })
+      .catch((err2) => {
+        console.log(err2)
+        return res.status(500).json({
+          RespCode: 500,
+          RespMessage: err2.message
+        })
+      })
+  }
+  catch (err) {
+    console.log(err)
+    return res.status(500).json({
+      RespCode: 500,
+      RespMessage: err.message
+    })
+  }
+})
+
+//  ------------------------- get by user -----------------------------//
+app2.get('/get/:firstName', (req, res) => {
+  const firstName = req.params.firstName
+
+  try {
+    const usersRef = ref(db, 'users')
+    const queryRef = query(usersRef, orderByChild('firstName'), equalTo(firstName))
+
+    get(queryRef)
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          return res.status(200).json({
+            RespCode: 200,
+            RespMessage: 'good',
+            Result: snapshot.val()
+          })
+        }
+        else {
+          return res.status(200).json({
+            RespCode: 200,
+            RespMessage: 'good',
+            Result: 'not found data'
+          })
+        }
+      })
+      .catch((err2) => {
+        console.log(err2)
+        return res.status(500).json({
+          RespCode: 500,
+          RespMessage: err2.message
+        })
+      })
+  }
+  catch (err) {
+    console.log(err)
+    return res.status(500).json({
+      RespCode: 500,
+      RespMessage: err.message
+    })
+  }
+})
+
+//  ------------------------- create user -----------------------------//
 app2.post('/users', (req, res) => {
-  //var id = req.body.id;
   var firstName = req.body.firstName;
   var lastName = req.body.lastName;
   var gender = req.body.gender;
@@ -36,12 +116,10 @@ app2.post('/users', (req, res) => {
   var sleep = req.body.sleep;
   var waterAmount = req.body.waterAmount;
 
-
   try {
       console.log('>>>> firstName', firstName)
       console.log('path', 'users/' + firstName)
       set(ref(db, 'users/' + firstName), {
-          //id: id,
           firstName: firstName,
           lastName: lastName,
           gender: gender,
@@ -53,8 +131,7 @@ app2.post('/users', (req, res) => {
           exercise: exercise,
           wakeUp: wakeUp,
           sleep: sleep,
-          waterAmount: waterAmount,
-          //date: new Date() + '',
+          waterAmount: waterAmount
       
       })
       return res.status(200).json({
@@ -71,19 +148,22 @@ app2.post('/users', (req, res) => {
   }
 })
 
-// test
-app2.post('/us', (req, res) => {
-  //var id = req.body.id;
+//  ------------------------- test create user -----------------------------//
+app2.post('/testcreate', (req, res) => {
   var firstName = req.body.firstName;
-
+  var gender = req.body.gender;
+  var height = req.body.height;
+  var weight = req.body.weight;
 
   try {
       console.log('>>>> firstName', firstName)
       console.log('path', 'users/' + firstName)
       set(ref(db, 'users/' + firstName), {
           firstName: firstName,
+          gender: gender,
+          height: height,
+          weight: weight,
           
-      
       })
       return res.status(200).json({
           RespCode: 200,
@@ -99,7 +179,131 @@ app2.post('/us', (req, res) => {
   }
 })
 
-//create water by user
+
+//  ------------------------- create daily -----------------------------//
+app2.post('/daily', (req, res) => {
+  var firstName = req.body.firstName;
+  var time = moment().tz('Asia/Bangkok').format();
+  var drunk = req.body.drunk;
+  var temp = req.body.temp;
+
+  try {
+      console.log('>>>> firstName', firstName)
+      console.log('path', 'users/' + firstName)
+      set(ref(db, 'users/' + firstName + '/daily/' + time), {
+        drunk: drunk,
+        temp: temp
+      })
+
+      return res.status(200).json({
+          RespCode: 200,
+          RespMessage: 'good'
+      })
+  }
+  catch (err) {
+      console.log(err)
+      return res.status(500).json({
+          RespCode: 500,
+          RespMessage: err.message
+      })
+  }
+})
+
+
+//  ------------------------- create waterAmount by user -----------------------------//
+app2.post('/waterAmount', async (req, res) => {
+  const firstName = req.body.firstName;
+
+  try {
+    const userRef = ref(db, `users/${firstName}`);
+    const userSnapshot = await get(userRef);
+
+    if (!userSnapshot.exists()) {
+      return res.status(404).json({
+        RespCode: 404,
+        RespMessage: 'User not found'
+      })
+    }
+
+    const weight = userSnapshot.child('weight').val();
+    const waterAmount = weight * 33;
+
+    set(ref(db, `users/${firstName}/waterAmount`), waterAmount);
+
+    return res.status(200).json({
+      RespCode: 200,
+      RespMessage: 'Water amount stored successfully'
+    })
+  }
+  catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      RespCode: 500,
+      RespMessage: err.message
+    })
+  }
+})
+
+
+//  ------------------------- edit data (gender) -----------------------------//
+app2.put('/edit', (req, res) => {
+  var firstName = req.body.firstName;
+  var lastName = req.body.lastName;
+  var gender = req.body.gender;
+
+  try {
+      console.log('>>>> firstName', firstName)
+      console.log('path', 'users/' + firstName)
+      update(ref(db, 'users/' + firstName), {
+          gender: gender,
+          lastName: lastName
+      })
+      return res.status(200).json({
+          RespCode: 200,
+          RespMessage: 'good'
+      })
+  }
+  catch (err) {
+      console.log(err)
+      return res.status(500).json({
+          RespCode: 500,
+          RespMessage: err.message
+      })
+  }
+})
+
+
+// ------------------------- delete by users -----------------------------//
+app2.delete('/del/:firstName', (req, res) => {
+  var firstname = req.params.firstName;
+
+  try {
+    remove(ref(db, "users/" + firstname))
+      .then(() => {
+        return res.status(200).json({
+          RespCode: 200,
+          RespMessage: 'good'
+        })
+      })
+      .catch((err2) => {
+        return res.status(500).json({
+          RespCode: 500,
+          RespMessage: 'bad ' + err2.message
+        })
+      })
+  }
+  catch (err) {
+    console.log(err)
+    return res.status(500).json({
+      RespCode: 500,
+      RespMessage: err.message
+    })
+  }
+})
+
+
+
+// // ------------------------- create amount To Drink  -----------------------------//
 app2.post('/amount', (req, res) => {
   var firstName = req.body.firstName;
 
@@ -109,7 +313,6 @@ app2.post('/amount', (req, res) => {
       set(ref(db, 'users/' + firstName + '/amountToDrink'), {
         
       })
-      
       return res.status(200).json({
           RespCode: 200,
           RespMessage: 'good'
@@ -123,6 +326,19 @@ app2.post('/amount', (req, res) => {
       })
   }
 })
+
+
+
+// // ------------------------- create daily by user  -----------------------------//
+
+
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // // post amountToDrink by user
 // app2.post('/am', (req, res) => {
@@ -163,7 +379,6 @@ app2.post('/amount', (req, res) => {
 //         drink: "100"
 //       }
 //     });
-
 //     return res.status(200).json({
 //       RespCode: 200,
 //       RespMessage: 'good'
@@ -252,70 +467,6 @@ app2.post('/amount', (req, res) => {
 // });
 
 
-//create daily by user
-app2.post('/daily', (req, res) => {
-  var firstName = req.body.firstName;
-  var time = moment().tz('Asia/Bangkok').format();
-  var drunk = req.body.drunk;
-  var temp = req.body.temp;
-
-  try {
-      console.log('>>>> firstName', firstName)
-      console.log('path', 'users/' + firstName)
-      set(ref(db, 'users/' + firstName + '/daily/' + time), {
-        drunk: drunk,
-        temp: temp
-      })
-
-      return res.status(200).json({
-          RespCode: 200,
-          RespMessage: 'good'
-      })
-  }
-  catch (err) {
-      console.log(err)
-      return res.status(500).json({
-          RespCode: 500,
-          RespMessage: err.message
-      })
-  }
-})
-
-// create waterAmount by user
-app2.post('/waterAmount', async (req, res) => {
-  const firstName = req.body.firstName;
-
-  try {
-    const userRef = ref(db, `users/${firstName}`);
-    const userSnapshot = await get(userRef);
-
-    if (!userSnapshot.exists()) {
-      return res.status(404).json({
-        RespCode: 404,
-        RespMessage: 'User not found'
-      })
-    }
-
-    const weight = userSnapshot.child('weight').val();
-    const waterAmount = weight * 33;
-
-    set(ref(db, `users/${firstName}/waterAmount`), waterAmount);
-
-    return res.status(200).json({
-      RespCode: 200,
-      RespMessage: 'Water amount stored successfully'
-    })
-  }
-  catch (err) {
-    console.log(err);
-    return res.status(500).json({
-      RespCode: 500,
-      RespMessage: err.message
-    })
-  }
-})
-
-
 // app2.post('/amountToDrinkk', (req, res) => {
 //   const firstName = req.body.firstName;
 //   const wakeUp = req.body.wakeUp;
@@ -376,87 +527,6 @@ app2.post('/waterAmount', async (req, res) => {
 // });
 
 
-//get
-app2.get('/get', (req, res) => {
-
-  try {
-    get(ref(db, 'users'))
-      .then((snapshot) => {
-        console.log(snapshot.val())
-        if (snapshot.exists()) {
-          return res.status(200).json({
-            RespCode: 200,
-            RespMessage: 'good',
-            Result: snapshot.val()
-          })
-        }
-        else {
-          return res.status(200).json({
-            RespCode: 200,
-            RespMessage: 'good',
-            Result: 'not found data'
-          })
-        }
-      })
-      .catch((err2) => {
-        console.log(err2)
-        return res.status(500).json({
-          RespCode: 500,
-          RespMessage: err2.message
-        })
-      })
-  }
-  catch (err) {
-    console.log(err)
-    return res.status(500).json({
-      RespCode: 500,
-      RespMessage: err.message
-    })
-  }
-})
-
-//get by user
-app2.get('/get/:firstName', (req, res) => {
-  const firstName = req.params.firstName
-
-  try {
-    const usersRef = ref(db, 'users')
-    const queryRef = query(usersRef, orderByChild('firstName'), equalTo(firstName))
-
-    get(queryRef)
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          return res.status(200).json({
-            RespCode: 200,
-            RespMessage: 'good',
-            Result: snapshot.val()
-          })
-        }
-        else {
-          return res.status(200).json({
-            RespCode: 200,
-            RespMessage: 'good',
-            Result: 'not found data'
-          })
-        }
-      })
-      .catch((err2) => {
-        console.log(err2)
-        return res.status(500).json({
-          RespCode: 500,
-          RespMessage: err2.message
-        })
-      })
-  }
-  catch (err) {
-    console.log(err)
-    return res.status(500).json({
-      RespCode: 500,
-      RespMessage: err.message
-    })
-  }
-})
-
 // //update
 // app2.put('/api/update', (req, res) => {
 //   var firstname = req.body.firstname
@@ -496,31 +566,3 @@ app2.get('/get/:firstName', (req, res) => {
 //     })
 //   }
 // })
-
-//delete
-app2.delete('/api/delete', (req, res) => {
-  var firstname = req.body.firstname
-
-  try {
-    remove(ref(db, "users/" + firstname))
-      .then(() => {
-        return res.status(200).json({
-          RespCode: 200,
-          RespMessage: 'good'
-        })
-      })
-      .catch((err2) => {
-        return res.status(500).json({
-          RespCode: 500,
-          RespMessage: 'bad ' + err2.message
-        })
-      })
-  }
-  catch (err) {
-    console.log(err)
-    return res.status(500).json({
-      RespCode: 500,
-      RespMessage: err.message
-    })
-  }
-})
