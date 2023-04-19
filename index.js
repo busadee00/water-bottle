@@ -71,6 +71,33 @@ app2.post('/users', (req, res) => {
   }
 })
 
+// test
+app2.post('/us', (req, res) => {
+  //var id = req.body.id;
+  var firstName = req.body.firstName;
+
+
+  try {
+      console.log('>>>> firstName', firstName)
+      console.log('path', 'users/' + firstName)
+      set(ref(db, 'users/' + firstName), {
+          firstName: firstName,
+          
+      
+      })
+      return res.status(200).json({
+          RespCode: 200,
+          RespMessage: 'good'
+      })
+  }
+  catch (err) {
+      console.log(err)
+      return res.status(500).json({
+          RespCode: 500,
+          RespMessage: err.message
+      })
+  }
+})
 
 //create water by user
 app2.post('/amount', (req, res) => {
